@@ -66,5 +66,4 @@ public Job exampleJob(JobBuilderFactory jobBuilderFactory, Step exampleStep) {
 
 ---
 
-궁금한 점이 있거나 추가로 알고 싶은 사항이 있으면 말씀해주세요! 😊
 
