@@ -32,7 +32,7 @@
     {
         "name": "David Taylor",
         "email": "david.taylor@example.com",
-        "age": 34,
+        "age": "TT",
         "city": "San Francisco"
     },
     {

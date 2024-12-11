@@ -1,5 +1,6 @@
 rootProject.name = 'breakrithm-spring'
 [
+        "spring-batch:01-job",
         "spring-batch:tasklet",
         "spring-batch:chunk",
         "spring-batch:db-shared",
