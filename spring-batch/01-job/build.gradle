@@ -1,6 +1,17 @@
-
+apply from: "${project.getRootDir()}/gradle/ext/spring.common.gradle"
+apply from: "${project.getRootDir()}/gradle/ext/spring.batch.gradle"
+apply from: "${project.getRootDir()}/gradle/ext/spring.jpa.gradle"
 
 dependencies {
+    // https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
+    runtimeOnly 'com.mysql:mysql-connector-j:8.4.0'
+}
 
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
 }
 

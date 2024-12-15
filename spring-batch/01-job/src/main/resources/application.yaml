@@ -1,0 +1,21 @@
+application:
+  id: bk-spring-batch-job
+  version: 1.0
+
+spring:
+  application:
+    name: bk-spring-batch-job
+  profiles:
+    active: local
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      name: ${job.name:NONE}
+      enabled: true
+
+  datasource:
+      url: jdbc:mysql://localhost:33061/batch?autoReconnect=true&serverTimezone=UTC
+      username: root
+      password: 'P@ssw0rd'
+      driver-class-name: com.mysql.cj.jdbc.Driver
