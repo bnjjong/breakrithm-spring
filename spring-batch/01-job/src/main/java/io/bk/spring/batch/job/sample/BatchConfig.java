@@ -6,6 +6,7 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,11 +31,26 @@ public class BatchConfig {
             .build();
     }
 
+
     @Bean
     public Step sampleStep() {
         return new StepBuilder("sampleStep", jobRepository)
             .tasklet((contribution, chunkContext) -> {
-                System.out.println("Executing Step...");
+                // JobExecutionContext에서 이전 실행 상태 확인
+                ExecutionContext stepContext = chunkContext.getStepContext().getStepExecution().getExecutionContext();
+
+                if (!stepContext.containsKey("RETRY_SUCCESS")) {
+                    String runDate = (String) chunkContext.getStepContext().getJobParameters().get("runDate");
+                    if ("2024-12-16".equals(runDate)) {
+                        System.out.println("Simulating failure for runDate=2024-12-16");
+                        stepContext.put("RETRY_SUCCESS", false); // 실패 상태 저장
+                        throw new RuntimeException("Simulated failure for runDate=2024-12-16");
+                    }
+                }
+
+                System.out.println("Step executed successfully for runDate: " +
+                    chunkContext.getStepContext().getJobParameters().get("runDate"));
+                stepContext.put("RETRY_SUCCESS", true); // 성공 상태 저장
                 return RepeatStatus.FINISHED;
             }, transactionManager)
             .build();
